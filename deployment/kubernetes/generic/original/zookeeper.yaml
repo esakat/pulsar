@@ -41,7 +41,7 @@ spec:
 ---
 
 ## Define a StatefulSet for ZK servers
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
     name: zk
@@ -49,6 +49,11 @@ metadata:
         app: pulsar
         component: zookeeper
 spec:
+    selector:
+      matchLabels:
+        app: pulsar
+        component: zookeeper
+        cluster: local
     serviceName: zookeeper
     replicas: 3
     template:
@@ -56,7 +61,7 @@ spec:
             labels:
                 app: pulsar
                 component: zookeeper
-                cluster: us-central
+                cluster: local
             annotations:
                 pod.alpha.kubernetes.io/initialized: "true"
                 prometheus.io/scrape: "true"
